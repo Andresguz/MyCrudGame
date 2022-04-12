@@ -25,15 +25,27 @@ namespace MyCrudGame.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Player>>> GetPlayers()
         {
-            return await _context.Players.ToListAsync();
+
+         //   return await _context.Players.ToListAsync();
+
+           var player = await _context.Players
+                .Include(p => p.Ranks).
+                Include(p => p.IdNavigation).
+                Include(p => p.PlayerSkins)
+                .ThenInclude(s => s.Skin)
+              
+            .ToListAsync();
+            return player;
         }
 
         // GET: api/Players1/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Player>> GetPlayer(int id)
         {
-            var player = await _context.Players.Include(p => p.Ranks).Include(p => p.IdNavigation).Include(p => p.PlayerSkins)
-                .FirstOrDefaultAsync(m => m.Id == id); ;
+            var player = await _context.Players.Include(p => p.Ranks).
+                Include(p => p.IdNavigation).
+                Include(p => p.PlayerSkins).ThenInclude(s => s.Skin)
+                .FirstOrDefaultAsync(m => m.Id == id); 
 
             if (player == null)
             {

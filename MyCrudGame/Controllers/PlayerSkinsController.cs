@@ -37,6 +37,7 @@ namespace MyCrudGame.Controllers
             var playerSkin = await _context.PlayerSkins
                 .Include(p => p.Player)
                 .Include(p => p.Skin)
+             
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (playerSkin == null)
             {

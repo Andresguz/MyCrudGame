@@ -26,6 +26,7 @@ namespace MyCrudGame.Controllers
         public async Task<ActionResult<IEnumerable<PlayerSkin>>> GetPlayerSkins()
         {
             return await _context.PlayerSkins.ToListAsync();
+      
         }
 
         // GET: api/PlayerSkins1/5
